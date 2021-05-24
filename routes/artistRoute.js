@@ -2,8 +2,8 @@ const artistRoutes = require('express').Router()
 const artistController = require('../controllers/artistController')
 
 
-artistRoutes.get('/', artistController.getAllArtists)
-artistRoutes.get('/:id', artistController.getOneArtist)
+artistRoutes.get('/', artistController.getAll)
+artistRoutes.get('/:id', artistController.getOne)
 artistRoutes.post('/:id', artistController.save)
 
 
