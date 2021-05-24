@@ -1,5 +1,5 @@
 const userInfoRoutes = require('express').Router()
-const userInfoController = require('../controllers/userController')
+const userInfoController = require('../controllers/userInfoController')
 
 
 userInfoRoutes.post('/', userInfoController.create)
