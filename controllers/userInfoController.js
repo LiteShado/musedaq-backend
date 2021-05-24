@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 const models = require('../models')
 
 
-const  userInfoController ={}
+const  userInfoController = {}
 
 userInfoController.create = async (req, res) => {
     try {
@@ -46,7 +46,7 @@ userInfoController.login = async(req, res) => {
       console.log(error);
       res.status(400).json({ error: error.message })
     }
-  }
+}
 
 
   userInfoController.verifyUser = async (req, res) => {
@@ -69,7 +69,7 @@ userInfoController.login = async(req, res) => {
       console.log(error);
       res.status(400).json({error: error.message})
     }
-  }
+}
 
   userInfoController.getLabel = async (req, res) => {
     try {
@@ -88,7 +88,7 @@ userInfoController.login = async(req, res) => {
     } catch (error) {
       res.json(error)
     }
-  }
+}
 
   userInfoController.delete =async (req,res) => {
     try {
@@ -112,4 +112,4 @@ userInfoController.login = async(req, res) => {
     }
 }
 
-  module.exports = userController
+module.exports = userInfoController
