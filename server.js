@@ -4,8 +4,53 @@ const app = express()
 app.use(require('morgan')('tiny'))
 const routesReport = require('rowdy-logger').begin(app)
 
+const rowdy = require ('rowdy-logger')
+
 app.use(express.json())
 app.use(require('cors')())
+
+
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+
+require('dotenv').config()
+
+const morgan = require('morgan')
+
+app.use(morgan('tiny'))
+
+app.use(express.json())
+app.use(require('cors')())
+
+const lookupUser = async (req, res, next) => {
+    try {
+        if (req.headers.authorization) {
+            const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+            const user = await models.user.findOne({
+                where: {
+                    id: decryptedId.userId
+                }
+            })
+            req.user = user
+        } else {
+            req.user = null
+        }
+
+        next()
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({ error: error.message })
+    }
+}
+
+app.use(lookupUser)
+
+const models = require('./models')
+
+
+app.get('/', (req, res) => {
+  res.send('root')
+})
 
 const userInfoRoutes = require('./routes/userInfoRoutes')
 app.use('/users', userInfoRoutes)
@@ -30,4 +75,3 @@ app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
   routesReport.print()
 })
-app.get('/', (req,res) => {res.send('hello from backend')})

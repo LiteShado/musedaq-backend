@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.genre.hasMany(models.artist)
+      // models.genre.hasMany(models.artist)
     }
   };
   genre.init({

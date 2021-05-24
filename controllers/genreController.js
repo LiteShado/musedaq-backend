@@ -1,3 +1,11 @@
+require('dotenv').config()
+const models = require('../models')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+
+
+const genreController = {}
+
 genreController.getAll = async (req, res) => {
 
     try {

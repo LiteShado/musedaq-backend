@@ -1,3 +1,10 @@
+require('dotenv').config()
+const models = require('../models')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+
+const ratingController = {}
+
 ratingController.getAll = async (req, res) => {
 
     try {
