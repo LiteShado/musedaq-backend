@@ -12,7 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       {
-      models.artist.belongsTo(models.label, {foreignKey:'artistId'})
+      // models.artist.belongsTo(models.label, {foreignKey:'artistId'})
+      models.artist.belongsToMany(models.label, {through:'artistLabel'})
+      models.artist.belongsToMany(models.userInfo, {through:'artistLabel'})
       // models.artist.belongsTo(models.genre, {foreignKey:'genre'})
       // models.artist.belongsTo(models.rating, {foreignKey:'rating'})
     }

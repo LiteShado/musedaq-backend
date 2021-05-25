@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // models.label.belongsTo(models.userInfo)
       // models.label.belongsTo(models.userInfo)
-      models.label.hasMany(models.artist)
-      models.label.belongsTo(models.userInfo, {foreignKey:'label'})
+      // models.label.hasMany(models.artist)
+      // models.label.belongsTo(models.userInfo, {foreignKey:'label'})
 
     }
   };
