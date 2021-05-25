@@ -10,7 +10,7 @@ labelController.signArtist = async (req, res) => {
     try {
         const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
 
-        const user = await models.user.findOne({
+        const user = await models.userInfo.findOne({
             where: {
                 id: decryptedId.userId
             }
@@ -21,7 +21,7 @@ labelController.signArtist = async (req, res) => {
         const signed = await models.artist.create({
             name:req.body.name,
             fanbase:req.body.fanbase,
-            biography:req.body.biography,
+            biograpy:req.body.biograpy,
             price:req.body.price,
             genre:req.body.genre,
             rating:req.body.rating
@@ -56,15 +56,15 @@ labelController.getOneLabel = async (req, res) => {
     try {
         const id = localStorage.getItem('userId', userId)
 
-        const user = await models.user.findOne({
+        const user = await models.userInfo.findOne({
             where: {
               id: id
           }
         })
 
-        const userLabel = await models.user.findOne({
+        const userLabel = await models.label.findOne({
             where: {
-              labelId: req.params.id
+              id: req.params.id
           }
         })
 
@@ -76,7 +76,37 @@ labelController.getOneLabel = async (req, res) => {
     }
 }
 
+labelController.create = async (req, res) => {
 
+    try {
+        const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+
+        const user = await models.userInfo.findOne({
+            where: {
+                id: decryptedId.userId
+            }
+        })
+
+        const label = await models.label.create({
+            name: req.body.name
+        })
+        // const id =  await models.label.findOne({
+        //     where: {
+        //         id: id
+        //     }
+        // })
+        // let labelId = id
+        const myLabel = await user.getMyLabel()
+
+        await user.addLabel(label)
+
+        res.json({user, myLabel, label, message: 'label created'})
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({error: error.message})
+    }
+
+}
 
 
 module.exports = labelController

@@ -51,14 +51,13 @@ userInfoController.login = async(req, res) => {
 
   userInfoController.verifyUser = async (req, res) => {
     try {
-      const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
-
-      const user = await models.userInfo.findOne({
+        const encryptedId = req.headers.authorization
+        const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
+        const user = await models.userInfo.findOne({
         where: {
-
-          id: decryptedId.userId
+            id: decryptedId.userId
         }
-      })
+    })
 
       if (user) {
         res.json({user, message:'user found'})

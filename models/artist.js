@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       {
-      // models.artist.belongsTo(models.label)
+      models.artist.belongsTo(models.userInfo, {through:'artistLabel'})
     }
     }
   };

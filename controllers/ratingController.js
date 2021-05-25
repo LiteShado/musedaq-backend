@@ -17,4 +17,19 @@ ratingController.getAll = async (req, res) => {
 }
 }
 
+ratingController.getOne = async (req, res) => {
+
+    try {
+        const rating = await models.artist.findAll({
+            where:{
+                rating: req.body.rating
+            }
+        })
+
+           res.json({rating})
+    } catch (error) {
+        res.json({error: error.message})
+    }
+}
+
 module.exports = ratingController

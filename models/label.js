@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // models.label.belongsTo(models.userInfo)
-      // models.label.hasMany(models.artist)
+      models.label.belongsTo(models.userInfo)
+      models.label.hasMany(models.artist)
     }
   };
   label.init({

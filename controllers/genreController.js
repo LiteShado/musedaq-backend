@@ -18,4 +18,19 @@ genreController.getAll = async (req, res) => {
 }
 }
 
+genreController.getOne = async (req, res) => {
+    try {
+    const genre = await models.artist.findAll({
+        where:{
+            genre: req.body.genre
+        }
+    })
+
+           res.json({genre})
+    } catch (error) {
+        res.json({error: error.message})
+        console.log(error)
+    }
+}
+
 module.exports = genreController
