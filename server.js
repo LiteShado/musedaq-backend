@@ -26,7 +26,7 @@ const lookupUser = async (req, res, next) => {
     try {
         if (req.headers.authorization) {
             const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
-            const user = await models.user.findOne({
+            const user = await models.userInfo.findOne({
                 where: {
                     id: decryptedId.userId
                 }

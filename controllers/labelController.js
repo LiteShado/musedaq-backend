@@ -79,6 +79,7 @@ labelController.getOneLabel = async (req, res) => {
 labelController.create = async (req, res) => {
 
     try {
+
         const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
 
         const user = await models.userInfo.findOne({
@@ -88,19 +89,29 @@ labelController.create = async (req, res) => {
         })
 
         const label = await models.label.create({
-            name: req.body.name
+            name: req.body.name,
+            // labelId:label.id,
         })
+        let userInfoId = user.id
+
+        // const newSign = await models.labels.create({
+        //     name: req.body.name,
+        //     labelId:label.id,
+        //     userInfoId:user.id
+        // })
+
         // const id =  await models.label.findOne({
         //     where: {
         //         id: id
         //     }
         // })
         // let labelId = id
-        const myLabel = await user.getMyLabel()
+        // const myLabel = await user.getMyLabel()
 
         await user.addLabel(label)
+        // await label.addLabel(newSign)
 
-        res.json({user, myLabel, label, message: 'label created'})
+        res.json({user, userInfoId, label, message: 'label created'})
     } catch (error) {
         console.log(error);
         res.status(400).json({error: error.message})
