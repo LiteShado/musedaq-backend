@@ -2,6 +2,7 @@ require('dotenv').config()
 const models = require('../models')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const label = require('../models/label')
 
 
 const artistController = {}
@@ -30,33 +31,46 @@ artistController.getOne = async (req, res) => {
     }
 }
 
-artistController.save = async (req, res) => {
+artistController.signArtist = async (req, res) => {
     try {
-        const artist = await models.artist.findOne({
-            where:{
-                id:req.params.id
-            }
-        })
         const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
 
-        const user = await models.userInfo.findOne({
+        const user = await models.user.findOne({
             where: {
                 id: decryptedId.userId
             }
         })
 
-        const artistLabel = await models.artistlabel.create({
-            artistId:artist.id,
-            labelId:label.id
-        })
-        await user.addArtistLabel(artistLabel)
-        await artist.addArtistLabel(artistLabel)
+        let userId = user.id
 
-        res.json({artist, user, artistLabel})
+        const labelChoice = await models.label.findOne({
+            where: {
+                userId: userId
+            }
+        })
+
+        let labelId = labelChoice.id
+
+
+        const artist = await models.artist.findOne({
+            where: {
+                id: req.body.id
+            }
+        })
+
+        let final = await artist.update(req.body)
+
+        // await user.addArtist(signed)
+        // await signed.addLabel(labelChoice)
+
+        // await signed.reload()
+
+        res.json({final})
     } catch (error) {
         res.json(error)
     }
 }
+
 
 
 module.exports = artistController

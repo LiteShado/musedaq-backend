@@ -26,7 +26,7 @@ const lookupUser = async (req, res, next) => {
     try {
         if (req.headers.authorization) {
             const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
-            const user = await models.userInfo.findOne({
+            const user = await models.user.findOne({
                 where: {
                     id: decryptedId.userId
                 }
@@ -52,8 +52,8 @@ app.get('/', (req, res) => {
   res.send('root')
 })
 
-const userInfoRoutes = require('./routes/userInfoRoutes')
-app.use('/users', userInfoRoutes)
+const userRoutes = require('./routes/userRoutes')
+app.use('/users', userRoutes)
 
 const artistRoutes = require('./routes/artistRoutes')
 app.use('/artist', artistRoutes)
@@ -61,11 +61,11 @@ app.use('/artist', artistRoutes)
 const labelRoutes = require('./routes/labelRoutes')
 app.use('/label', labelRoutes)
 
-const genreRoutes = require('./routes/genreRoutes')
-app.use('/genre', genreRoutes)
-
 const ratingRoutes = require('./routes/ratingRoutes')
 app.use('/rating', ratingRoutes)
+
+const genreRoutes = require('./routes/genreRoutes')
+app.use('/genre', genreRoutes)
 
 
 const PORT = process.env.PORT || 3001

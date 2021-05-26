@@ -12,14 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // models.label.belongsTo(models.userInfo)
       // models.label.belongsTo(models.userInfo)
-      // models.label.hasMany(models.artist)
+      models.label.hasMany(models.artist)
       // models.label.belongsTo(models.userInfo, {foreignKey:'label'})
 
     }
   };
   label.init({
     name: DataTypes.STRING,
-    labelId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'label',

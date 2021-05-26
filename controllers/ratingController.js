@@ -5,28 +5,28 @@ const bcrypt = require('bcrypt')
 
 const ratingController = {}
 
-ratingController.getAll = async (req, res) => {
+// ratingController.getAll = async (req, res) => {
 
-    try {
-        let rating = await models.rating.findAll()
-        res.json(rating)
-        res.status(200)
+//     try {
+//         let rating = await models.rating.findAll()
+//         res.json(rating)
+//         res.status(200)
 
-    } catch (error) {
-    res.status(400).json({ error: error.message })
-}
-}
+//     } catch (error) {
+//     res.status(400).json({ error: error.message })
+// }
+// }
 
 ratingController.getOne = async (req, res) => {
 
     try {
-        const rating = await models.artist.findAll({
+        const artist = await models.artist.findAll({
             where:{
                 rating: req.body.rating
             }
         })
 
-           res.json({rating})
+           res.json({artist})
     } catch (error) {
         res.json({error: error.message})
     }

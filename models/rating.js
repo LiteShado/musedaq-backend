@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   rating.init({
-    rating: DataTypes.INTEGER
+    rating: DataTypes.INTEGER,
+    artistId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'rating',

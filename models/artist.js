@@ -12,9 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       {
-      // models.artist.belongsTo(models.label, {foreignKey:'artistId'})
-      models.artist.belongsToMany(models.label, {through:'artistLabel'})
-      models.artist.belongsToMany(models.userInfo, {through:'artistLabel'})
+      models.artist.belongsTo(models.label)
+      models.artist.hasMany(models.rating)
+      // models.artist.belongsToMany(models.label, {through:'artistLabel'})
+      // models.artist.belongsToMany(models.userInfo, {through:'artistLabel'})
       // models.artist.belongsTo(models.genre, {foreignKey:'genre'})
       // models.artist.belongsTo(models.rating, {foreignKey:'rating'})
     }
@@ -26,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     biograpy: DataTypes.STRING,
     fanbase: DataTypes.INTEGER,
     rating: DataTypes.INTEGER,
-    price: DataTypes.INTEGER
+    price: DataTypes.INTEGER,
+    labelId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'artist',
