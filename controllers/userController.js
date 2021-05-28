@@ -63,6 +63,23 @@ userController.update = async (req,res) => {
   }
 }
 
+userController.getMe = async (req,res) => {
+
+  try {
+    // const encryptedId = jwt.sign({ userId: user.id}, process.env.JWT_SECRET)
+    // const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
+
+      const user = await models.user.findOne({
+          where:{
+              id: req.body.id
+            }
+      })
+      res.json({user})
+  } catch (error) {
+      res.json({error})
+  }
+}
+
 
   userController.verifyUser = async (req, res) => {
     try {
@@ -70,7 +87,7 @@ userController.update = async (req,res) => {
         const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
         const user = await models.user.findOne({
         where: {
-            id: decryptedId.userId
+            id: req.body.id
         }
     })
 
@@ -85,7 +102,25 @@ userController.update = async (req,res) => {
     }
 }
 
+userController.delete = async(req,res) => {
+  console.log(req.headers)
+  try {
+      let user = req.user
 
+      await user.destroy()
+
+      const label = await user.getLabel()
+
+      for(let i=0 ; label.length ; i++){
+          await label[i].destroy()
+      }
+
+      res.json({ message: 'user deleted', user, label})
+  } catch (error) {
+      console.log(error)
+      res.json({error})
+  }
+}
 
 module.exports = userController
 

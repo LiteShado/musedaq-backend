@@ -13,18 +13,17 @@ const  labelController = {}
 labelController.getOneLabel = async (req, res) => {
     try {
 
-        const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
-        const user = await models.user.findOne({
-            where: {
-                id: decryptedId.userId
-            }
-        })
-        let userId = user.id
+        // const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+        // const user = await models.user.findOne({
+        //     where: {
+        //         id: req.body.id
+        //     }
+        // })
+        // let id = user.id
 
         const userLabel = await models.label.findOne({
             where: {
-                name: req.body.name,
-                userId: userId
+                userId: req.body.userId
             }
         })
 
@@ -34,28 +33,50 @@ labelController.getOneLabel = async (req, res) => {
     }
 }
 
+labelController.getLabelName = async (req, res) => {
+    try {
+
+        // const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+        // const user = await models.user.findOne({
+        //     where: {
+        //         id: req.body.id
+        //     }
+        // })
+        // let id = user.id
+
+        const userLabelName = await models.label.findOne({
+            where: {
+                id: req.body.id
+            }
+        })
+
+        res.json({ userLabelName })
+    } catch (error) {
+        res.json(error)
+    }
+}
+
 labelController.create = async (req, res) => {
 
     try {
 
-        const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
 
         const user = await models.user.findOne({
             where: {
-                id: decryptedId.userId
+                    id: req.body.userId
             }
         })
         userId = user.id
         console.log(userId)
         const label = await models.label.create({
             name: req.body.name,
-            userId: req.body.userId
+            userId: req.body.id
         })
 
         await user.addLabel(label)
         // await label.addLabel(newSign)
 
-        res.json({user, userId, label, message: 'label created'})
+        res.json({userId, label, message: 'label created'})
     } catch (error) {
         console.log(error);
         res.status(400).json({error: error.message})
@@ -66,21 +87,22 @@ labelController.create = async (req, res) => {
 labelController.getLabels = async (req, res) => {
     try {
 
-        const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+        // const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
 
-        const user = await models.user.findOne({
+        // const userLabel = await models.user.findAll({
+        //     where: {
+        //         id: req.body.userId
+        //     }
+        // })
+
+        // let userId = user.id
+
+        const userLabel = await models.label.findAll({
             where: {
-                id: decryptedId.userId
+                userId: req.body.userId
             }
         })
-
-        let userId = user.id
-
-        const label = await models.label.findAll({
-            where: {
-                userId: userId
-            }
-        })
+        const label = userLabel
 
         res.json(label)
     } catch (error) {
@@ -90,18 +112,18 @@ labelController.getLabels = async (req, res) => {
 
 labelController.delete =async (req,res) => {
     try {
-      const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+    //   const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
 
-      const user = await models.user.findOne({
-        where: {
-          id: decryptedId.userId
-        }
-      })
+    //   const user = await models.user.findOne({
+    //     where: {
+    //       id: decryptedId.userId
+    //     }
+    //   })
 
       const deleted = await models.label.destroy({
 
         where:{
-            id: req.params.id
+            id: req.body.idi
         }
       })
 

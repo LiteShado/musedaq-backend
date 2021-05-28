@@ -3,9 +3,10 @@ const labelController = require('../controllers/labelController')
 
 
 labelRoutes.post('/new', labelController.create)
-labelRoutes.get('/mylabel', labelController.getOneLabel)
-labelRoutes.get('/mylabels', labelController.getLabels)
-labelRoutes.delete('/delete/:id', labelController.delete)
+labelRoutes.post('/mylabel', labelController.getOneLabel)
+labelRoutes.post('/mylabels', labelController.getLabels)
+labelRoutes.post('/mylabelname', labelController.getLabelName)
+labelRoutes.delete('/delete', labelController.delete)
 
 
 

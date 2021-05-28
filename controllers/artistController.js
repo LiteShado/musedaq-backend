@@ -17,6 +17,19 @@ artistController.getAll = async (req, res) => {
     }
 }
 
+artistController.getSignedArtists = async (req, res) => {
+    try {
+        const artists = await models.artist.findAll({
+            where:{
+                labelId: req.body.labelId
+            }
+        })
+        res.json({artists})
+    } catch (error) {
+        res.json({error: error.message})
+    }
+}
+
 artistController.getOne = async (req, res) => {
     try {
         const artist = await models.artist.findOne({
@@ -33,24 +46,12 @@ artistController.getOne = async (req, res) => {
 
 artistController.signArtist = async (req, res) => {
     try {
-        const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
-
-        const user = await models.user.findOne({
-            where: {
-                id: decryptedId.userId
-            }
-        })
-
-        let userId = user.id
 
         const labelChoice = await models.label.findOne({
             where: {
-                userId: userId
+                id: req.body.labelId
             }
         })
-
-        let labelId = labelChoice.id
-
 
         const artist = await models.artist.findOne({
             where: {
@@ -60,10 +61,30 @@ artistController.signArtist = async (req, res) => {
 
         let final = await artist.update(req.body)
 
-        // await user.addArtist(signed)
-        // await signed.addLabel(labelChoice)
+        res.json({final})
+    } catch (error) {
+        res.json(error)
+    }
+}
 
-        // await signed.reload()
+artistController.unsignArtist = async (req, res) => {
+    try {
+
+        // const labelChoice = await models.label.findOne({
+        //     where: {
+        //         id: req.body.labelId
+        //     }
+        // })
+
+        const artist = await models.artist.findOne({
+            where: {
+                id: req.body.id
+            }
+        })
+
+        let labelId = null
+
+        let final = await artist.update(req.body)
 
         res.json({final})
     } catch (error) {
