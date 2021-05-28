@@ -110,7 +110,7 @@ labelController.getLabels = async (req, res) => {
     }
 }
 
-labelController.delete =async (req,res) => {
+labelController.delete = async (req,res) => {
     try {
     //   const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
 
@@ -120,12 +120,14 @@ labelController.delete =async (req,res) => {
     //     }
     //   })
 
-      const deleted = await models.label.destroy({
-
+      const foundlabel = await models.label.findOne({
         where:{
             id: req.body.idi
         }
       })
+      console.log(req.body.idi)
+
+      await foundlabel.destroy()
 
       res.json({messsage: 'deleted'})
     } catch (error) {

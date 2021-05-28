@@ -82,9 +82,9 @@ artistController.unsignArtist = async (req, res) => {
             }
         })
 
-        let labelId = null
+        artist.labelId = null
 
-        let final = await artist.update(req.body)
+        let final = await artist.save()
 
         res.json({final})
     } catch (error) {
